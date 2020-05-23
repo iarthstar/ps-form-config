@@ -1,0 +1,13 @@
+{
+  "name": "purescript-form-config",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Arth K. Gajjar",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "pulp build",
+    "build-watch": "pulp --watch build",
+    "bundle": "pulp browserify --optimise --to dist/index_bundle.js --skip-entry-point"
+  }
+}

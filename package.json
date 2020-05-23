@@ -1,5 +1,5 @@
 {
-  "name": "purescript-form-config",
+  "name": "ps-form-config",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Arth K. Gajjar",
@@ -8,6 +8,7 @@
   "scripts": {
     "build": "pulp build",
     "build-watch": "pulp --watch build",
-    "bundle": "pulp browserify --optimise --to dist/index_bundle.js --skip-entry-point"
+    "bundle": "pulp --then \"echo 'module.exports = PS;' >> ./dist/index_bundle.js\" build --optimise --to dist/index_bundle.js --skip-entry-point",
+    "test": "yarn bundle && node test/index.js"
   }
 }

@@ -1,3 +1,5 @@
+const PS = require('../dist/index_bundle.js');
+
 const configOne = {
   firstname: {
     kind: "TEXTFIELD",
@@ -20,11 +22,4 @@ const configOne = {
   }
 };
 
-exports._readFormConfig = (a) => Object.values(a);
-
-exports._writeFormConfig = (a) => Object.fromEntries(
-  a.map(field => {
-    field.contents.__KIND__ = field.tag;
-    return field.contents;
-  }).map(e => [e.name, e])
-);
+console.log(PS['Main'].validateConfig(configOne));

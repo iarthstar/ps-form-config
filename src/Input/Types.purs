@@ -7,7 +7,7 @@ import Data.Generic.Rep (class Generic)
 import Data.Generic.Rep.Show (genericShow)
 import Data.Maybe (Maybe)
 import Data.Newtype (class Newtype)
-import Foreign.Class (class Decode, class Encode, decode, encode)
+import Foreign.Class (class Decode, class Encode, decode)
 import Foreign.Generic (defaultOptions, genericDecode, genericEncode)
 
 
@@ -23,12 +23,14 @@ data InputField
   -- | Radio RadioField
 derive instance genericInputField :: Generic InputField _
 instance showInputField :: Show InputField where show = genericShow 
-instance decodeInputField :: Decode InputField where 
-  decode str = (Select <$> (decode str)) <|> (Text <$> (decode str))
-instance encodeInputField :: Encode InputField where 
-  encode = case _ of
-    Text a -> encode a
-    Select a -> encode a
+instance decodeInputField :: Decode InputField where decode str = (Select <$> (decode str)) <|> (Text <$> (decode str))
+instance encodeInputField :: Encode InputField where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
+-- instance encodeInputField :: Encode InputField where 
+--   encode = case _ of
+--     Text a -> encode a
+--     Select a -> encode a
+
+
 
 newtype TextField = TextField
   { name        :: String
@@ -50,6 +52,8 @@ instance showTextField :: Show TextField where show = genericShow
 instance decodeTextField :: Decode TextField where decode = genericDecode (defaultOptions { unwrapSingleConstructors = true })
 instance encodeTextField :: Encode TextField where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
 
+
+
 newtype SelectField = SelectField
   { name        :: String
   , options     :: Array Option
@@ -70,6 +74,8 @@ instance showSelectField :: Show SelectField where show = genericShow
 instance decodeSelectField :: Decode SelectField where decode = genericDecode (defaultOptions { unwrapSingleConstructors = true })
 instance encodeSelectField :: Encode SelectField where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
 
+
+
 -- | Helper Types
 newtype Option = Option
   { label :: String
@@ -78,5 +84,5 @@ newtype Option = Option
 derive instance newtypeOption :: Newtype Option _
 derive instance genericOption :: Generic Option _
 instance showOption :: Show Option where show = genericShow
-instance decodeOption :: Decode Option where decode = genericDecode (defaultOptions { unwrapSingleConstructors = true })
 instance encodeOption :: Encode Option where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
+instance decodeOption :: Decode Option where decode = genericDecode (defaultOptions { unwrapSingleConstructors = true })

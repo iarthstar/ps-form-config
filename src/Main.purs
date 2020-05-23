@@ -3,12 +3,11 @@ module Main where
 import Prelude
 
 import Data.Either (Either(..))
-import Effect (Effect)
-import Effect.Class.Console (log)
+import Foreign (Foreign)
+import Foreign.Generic (encode)
 import Form.Utils (readFormConfig, writeFormConfig)
 
-main :: Effect Unit
-main = do
-  readFormConfig >>= case _ of
-    Left err -> log "Error in Config"
+validateConfig :: Foreign -> Foreign
+validateConfig = readFormConfig >>> case _ of
+    Left err -> encode "{}"
     Right fc -> writeFormConfig fc
